@@ -23,20 +23,20 @@ const spaceFacts = [
 
 // Display a random space fact right when the page loads
 window.addEventListener('DOMContentLoaded', () => {
-  // Create a simple paragraph element for our fact section
   const factElement = document.createElement('div');
   factElement.style.padding = "15px";
   factElement.style.marginBottom = "20px";
-  factElement.style.background = "#fff";
-  factElement.style.borderRadius = "8px";
-  factElement.style.color = "#333";
+  factElement.style.background = "linear-gradient(135deg, #0d121f 0%, #070a12 100%)";
+  factElement.style.border = "1px solid rgba(11, 61, 145, 0.5)";
+  factElement.style.boxShadow = "0 4px 20px rgba(11, 61, 145, 0.25)";
+  factElement.style.borderRadius = "12px";
+  factElement.style.color = "#e2e8f0";
   factElement.style.fontWeight = "bold";
   factElement.style.textAlign = "center";
   
   const randomIndex = Math.floor(Math.random() * spaceFacts.length);
   factElement.textContent = `🌌 Did You Know? ${spaceFacts[randomIndex]}`;
   
-  // Insert the fact above the image gallery row
   galleryContainer.parentNode.insertBefore(factElement, galleryContainer);
 });
 
@@ -49,7 +49,6 @@ async function getSpaceImages() {
   galleryContainer.innerHTML = `<div class="placeholder"><p>🔄 Loading space photos...</p></div>`;
 
   try {
-    // Build the request string matching NASA's parameters
     const url = `https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}&start_date=${startDate}&end_date=${endDate}`;
     const response = await fetch(url);
     
@@ -58,11 +57,8 @@ async function getSpaceImages() {
     }
     
     const data = await response.json();
-    
-    // Ensure we handle array data structures and slice it to max 9 items
     const itemsToDisplay = Array.isArray(data) ? data.slice(0, 9) : [data];
     
-    // Build and append our cards
     displayGallery(itemsToDisplay);
     
   } catch (error) {
@@ -73,44 +69,40 @@ async function getSpaceImages() {
 
 // --- Display Gallery Items ---
 function displayGallery(items) {
-  // Clean the placeholder out of the gallery container completely
   galleryContainer.innerHTML = '';
 
   items.forEach(item => {
-    // Create a new div wrapper using the class provided in your original CSS
     const card = document.createElement('div');
     card.classList.add('gallery-item');
 
-    // LevelUp: Conditionals to check for video entries vs standard images
     let mediaHTML = '';
     if (item.media_type === 'video') {
-      mediaHTML = `<div style="height:200px; display:flex; align-items:center; justify-content:center; background:#ddd; color:#333; font-weight:bold;">📹 Video Entry (Click to Open)</div>`;
+      mediaHTML = `<div style="height:200px; display:flex; align-items:center; justify-content:center; background:#171e30; color:#a5b4fc; font-weight:bold; border-radius: 8px 8px 0 0;">📹 Video Entry (Click to Open)</div>`;
     } else {
       mediaHTML = `<img src="${item.url}" alt="${item.title}">`;
     }
 
-    // Set inside layout structure matching your original .gallery-item definitions
     card.innerHTML = `
-      ${mediaHTML}
-      <p><strong>${item.title}</strong><br><small>${item.date}</small></p>
+      <div class="media-frame" style="width: 100%; height: 200px; overflow: hidden;">
+        ${mediaHTML}
+      </div>
+      <p style="padding: 15px; color: #cbd5e1;"><strong>${item.title}</strong><br><small style="color: #94a3b8;">${item.date}</small></p>
     `;
 
-    // Listen for mouseclicks to summon the full detail view
     card.addEventListener('click', () => openModal(item));
-
     galleryContainer.appendChild(card);
   });
 }
 
 // --- Build and Manage the Modal Component ---
-// Create modal nodes dynamically to keep the starter HTML file completely untouched
 const modalOverlay = document.createElement('div');
 modalOverlay.style.position = "fixed";
 modalOverlay.style.top = "0";
 modalOverlay.style.left = "0";
 modalOverlay.style.width = "100%";
 modalOverlay.style.height = "100%";
-modalOverlay.style.background = "rgba(0,0,0,0.8)";
+modalOverlay.style.background = "rgba(3, 5, 10, 0.85)";
+modalOverlay.style.backdropFilter = "blur(5px)";
 modalOverlay.style.display = "none";
 modalOverlay.style.justifyContent = "center";
 modalOverlay.style.alignItems = "center";
@@ -118,58 +110,69 @@ modalOverlay.style.zIndex = "1000";
 modalOverlay.style.padding = "20px";
 
 const modalBox = document.createElement('div');
-modalBox.style.background = "#fff";
-modalBox.style.padding = "25px";
-modalBox.style.borderRadius = "8px";
-modalBox.style.maxWidth = "600px";
+modalBox.style.background = "#0d121f";
+modalBox.style.border = "2px solid #fc3d21"; // Glowing NASA Red accent line!
+modalBox.style.boxShadow = "0 0 25px rgba(252, 61, 33, 0.35)";
+modalBox.style.padding = "30px";
+modalBox.style.borderRadius = "16px";
+modalBox.style.maxWidth = "750px";
 modalBox.style.width = "100%";
-modalBox.style.maxHeight = "90vh";
+modalBox.style.maxHeight = "85vh";
 modalBox.style.overflowY = "auto";
 modalBox.style.position = "relative";
-modalBox.style.color = "#333";
+modalBox.style.color = "#f1f5f9";
 
 const closeButton = document.createElement('button');
 closeButton.innerHTML = "&times;";
 closeButton.style.position = "absolute";
-closeButton.style.top = "10px";
+closeButton.style.top = "15px";
 closeButton.style.right = "15px";
-closeButton.style.background = "none";
-closeButton.style.border = "none";
-closeButton.style.fontSize = "24px";
+closeButton.style.background = "rgba(0, 0, 0, 0.6)";
+closeButton.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+closeButton.style.fontSize = "22px";
 closeButton.style.cursor = "pointer";
-closeButton.style.width = "auto";
+closeButton.style.width = "38px";
+closeButton.style.height = "38px";
+closeButton.style.borderRadius = "50%;"
+closeButton.style.display = "flex";
+closeButton.style.alignItems = "center";
+closeButton.style.justifyContent = "center";
+closeButton.style.color = "#94a3b8";
+
+closeButton.addEventListener('mouseenter', () => { closeButton.style.backgroundColor = '#fc3d21'; closeButton.style.color = '#fff'; });
+closeButton.addEventListener('mouseleave', () => { closeButton.style.backgroundColor = 'rgba(0, 0, 0, 0.6)'; closeButton.style.color = '#94a3b8'; });
 
 modalBox.appendChild(closeButton);
 modalOverlay.appendChild(modalBox);
 document.body.appendChild(modalOverlay);
 
 function openModal(item) {
-  // Clear any existing modal inner contents except the close button
   const contentWrapper = modalBox.querySelector('.modal-content-wrapper') || document.createElement('div');
   contentWrapper.className = 'modal-content-wrapper';
   contentWrapper.innerHTML = '';
 
   let modalMedia = '';
   if (item.media_type === 'video') {
-    modalMedia = `<iframe src="${item.url}" width="100%" height="315" frameborder="0" allowfullscreen></iframe>`;
+    modalMedia = `<iframe src="${item.url}" width="100%" height="400" frameborder="0" allowfullscreen style="display:block; border-radius:8px;"></iframe>`;
   } else {
-    modalMedia = `<img src="${item.url}" alt="${item.title}" style="width:100%; height:auto; border-radius:4px; margin-bottom:15px;">`;
+    modalMedia = `<img src="${item.url}" alt="${item.title}" style="width:100%; height:auto; border-radius:8px; display:block; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">`;
   }
 
   contentWrapper.innerHTML = `
-    <h2 style="margin-bottom:5px; font-size:20px;">${item.title}</h2>
-    <p style="font-size:12px; color:#666; margin-bottom:15px;">${item.date}</p>
-    ${modalMedia}
-    <p style="font-size:14px; line-height:1.5; margin-top:15px;">${item.explanation}</p>
+    <h2 style="margin-bottom:8px; font-size:22px; color:#ffffff; font-weight:800;">${item.title}</h2>
+    <p style="font-size:12px; color:#94a3b8; margin-bottom:18px; text-transform:uppercase; letter-spacing:1px;">Observation Log: ${item.date}</p>
+    <div style="width:100%; overflow:hidden; margin-bottom:20px;">
+      ${modalMedia}
+    </div>
+    <p style="font-size:15px; line-height:1.6; margin-top:18px; color:#cbd5e1;">${item.explanation}</p>
   `;
 
   modalBox.appendChild(contentWrapper);
   modalOverlay.style.display = "flex";
+  document.body.style.overflow = 'hidden';
 }
 
-// Event hooks to shut down modal visibility screens
-closeButton.addEventListener('click', () => { modalOverlay.style.display = "none"; });
-modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) modalOverlay.style.display = "none"; });
+closeButton.addEventListener('click', () => { modalOverlay.style.display = "none"; document.body.style.overflow = 'auto'; });
+modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) { modalOverlay.style.display = "none"; document.body.style.overflow = 'auto'; } });
 
-// Fire our fetch operation whenever the original action button gets clicked
 fetchButton.addEventListener('click', getSpaceImages);

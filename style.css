@@ -417,3 +417,97 @@ button:active {
 .gallery-item:hover {
   transform: scale(1.03);
 }
+/* ========================================================
+   PROJECT STARDUST: CUTE COSMIC AESTHETIC ENHANCEMENTS
+   ======================================================== */
+
+/* Soften the main webpage canvas with a dark cosmic tint */
+body {
+  background: radial-gradient(circle at center, #0a101f 0%, #05070c 100%) !important;
+  color: #f1f5f9 !important;
+  position: relative;
+}
+
+/* Add an elegant subtle starfield layer across the background grid */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: 
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+  background-size: 550px 550px, 350px 350px, 250px 250px;
+  background-position: 0 0, 40px 60px, 130px 270px;
+  opacity: 0.25;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Restyle the primary site header text */
+h1 {
+  color: #ffffff !important;
+  text-shadow: 0 0 12px rgba(11, 61, 145, 0.6);
+  letter-spacing: 1.5px;
+}
+
+/* Style the dynamic space fact card seamlessly */
+div[style*="background: rgb(255, 255, 255)"] {
+  background: linear-gradient(135deg, #0d121f 0%, #070a12 100%) !important;
+  border: 1px solid rgba(11, 61, 145, 0.5) !important;
+  color: #e2e8f0 !important;
+  box-shadow: 0 4px 20px rgba(11, 61, 145, 0.25) !important;
+  border-radius: 12px !important;
+}
+
+/* Make your input fields dark and match the aesthetic */
+input[type="date"] {
+  background-color: #070a12 !important;
+  color: #f1f5f9 !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 6px !important;
+}
+
+/* Make the button look premium using NASA Blue with a custom hover glow */
+button {
+  background-color: #0b3d91 !important;
+  color: #ffffff !important;
+  font-weight: bold !important;
+  border-radius: 6px !important;
+  transition: all 0.25s ease-in-out !important;
+}
+
+button:hover {
+  background-color: #1254c7 !important;
+  box-shadow: 0 0 15px rgba(11, 61, 145, 0.7) !important;
+  transform: translateY(-1px);
+}
+
+/* Style the gallery image cards with rounded edges, soft shadows, and high-quality glows */
+.gallery-item {
+  background: #0d121f !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+}
+
+.gallery-item:hover {
+  transform: translateY(-6px) scale(1.03) !important;
+  border-color: rgba(11, 61, 145, 0.6) !important;
+  box-shadow: 0 12px 25px rgba(11, 61, 145, 0.35) !important;
+}
+
+.gallery-item img {
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.gallery-item p {
+  color: #cbd5e1 !important;
+}
+
+/* Style the loading message with a clean glowing effect */
+.placeholder p {
+  color: #94a3b8 !important;
+  font-weight: 500;
+}
